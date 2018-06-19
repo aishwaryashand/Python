@@ -1,0 +1,116 @@
+#!/usr/bin/python
+
+# MENU BASED ACL
+
+import os
+import webbrowser
+import urllib2
+import socket
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+
+
+key = int(raw_input('''Press 1: To show current date and time.
+Press 2: To create a new file.
+Press 3: To create a new directory.
+Press 4: To search something on google.
+Press 5: To logout your system user.
+Press 6: To shut down your OS.
+Press 7: To check your internet connection on your PC/Lapi
+Press 8: To login Whatsapp on browser.
+Press 9: To check all connected IP in your network.
+'''))
+
+if key==1:
+	print("The current date and time is ...")
+	os.system('date')
+
+elif key==2:
+	name_file = raw_input("Enter name of the file: ")
+	f = open(name_file,"w+")
+	print ("The file is created.")
+
+elif key==3:
+	name_dir = raw_input("Enter name of the directory: ")
+	os.mkdir(name_dir)
+	print ("The directory is created.")
+
+elif key==4:
+	msg = raw_input("What do you want to search on google: ")
+	webbrowser.open_new_tab('https://www.google.com/search?q='+msg)
+
+elif key==5:
+	print ("Logging you out.")
+	os.system('logout')
+
+elif key==6:
+	print ("System is shutting down.")
+	os.system('shutdown')
+
+elif key==7:
+	try:
+	  urllib2.urlopen("https://www.google.com", timeout=2)
+	except urllib2.URLError as err:
+	  print ("Network down.")
+	else:
+	  print ("Up and running.")
+
+elif key==8:
+ number_of_times = 10
+ message = 'Hi! Are you there?'
+
+#selenium web drivers 
+ driver = None
+ 
+ def wait(web_opening_time=3):
+	time.sleep(web_opening_time)
+
+#load web driver for selenium : Firefox
+ def web_driver_load():
+	global driver
+	driver = webdriver.Firefox()
+
+#load web driver for selenium : Firefox
+ def web_driver_load():
+	global driver
+	driver = webdriver.Firefox()
+
+#quit web driver for selenium
+ def web_driver_quit():
+	driver.quit()
+
+#actual login in hockey app site
+ def whatsapp_login():
+ 	driver.get('https://web.whatsapp.com/');
+	wait(10)
+ def sendMessage(msg='Hi!'):
+ 	web_obj = driver.find_element_by_xpath("//div[@contenteditable='true']")
+	web_obj.send_keys(msg)
+	web_obj.send_keys(Keys.RETURN)
+
+#Main Method
+if __name__ == "__main__":
+	web_driver_load()
+	whatsapp_login()
+	wait()
+	
+	for i in range(number_of_times):
+		sendMessage(message)
+		wait()
+	print("Process complete successfully")
+
+	wait()
+	web_driver_quit()
+		
+
+elif key==9:
+	print ("IP's connected to your network are : ")
+
+	
+
+else:
+	print("Wrong input.")
+	
+
+
