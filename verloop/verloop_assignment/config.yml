@@ -1,0 +1,74 @@
+tags:
+- name: GeoCoordinates Details
+schemes:
+- "https"
+- "http"
+
+paths:
+/getSuccessMessage:
+post:
+summary: Get Lattitude and Longitude Values.
+description: Returns coordinates i.e. Lattitude and Longitude Values of entered address.
+consumes:
+- application/json
+produces:
+- application/json
+- application/xml
+parameters:
+- name: body
+  in: body
+  description: The Address must be valid one and the value of output_format must be either json or xml.
+  schema:
+    properties:
+      address:
+        type: string
+        example: 3582,13 G Main Road, 4th Cross Rd, Indiranagar, Bengaluru, Karnataka 560008
+      output_format:
+        type: string
+        example: json
+  required: true
+  allowReserved: true
+
+responses:
+  '200':
+    description: Success
+    schema:
+      type: object
+      properties:
+        address:
+          type: string
+          example: 3582,13 G Main Road, 4th Cross Rd, Indiranagar, Bengaluru, Karnataka 560008
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: integer
+              example: 12.9658286
+            lng:
+              type: integer
+              example: 77.63948169999999
+  '201':
+    description: Invalid address.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No such address found.
+  '400':
+    description: Invalid input requirements.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Failed to decode JSON object.
+          description: Data is not JSON serializable
+  '406':
+    description: Invalid input requirements.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing param 'address'.
